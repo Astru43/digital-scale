@@ -19,11 +19,14 @@ typedef struct {
 class Graphics {
   private:
     Pins _pins;
+    void Reset();
 
   public:
     Graphics() = default;
     Graphics(Pins pins);
     ~Graphics() = default;
+
+    void LcdInfo(uint8_t *data, uint8_t size);
 };
 
 #endif

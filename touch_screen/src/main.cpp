@@ -5,6 +5,7 @@ Graphics _graphics;
 
 void setup() {
     // put your setup code here, to run once:
+    Serial.begin(9600);
     Pins _pins;
     for (int i = 0; i < 8; i++) {
         if (i < 2)
@@ -19,6 +20,11 @@ void setup() {
     _pins.LCD_RST = A4;
 
     _graphics = Graphics(_pins);
+    uint8_t data[3] = { 0 };
+    _graphics.LcdInfo(data, 3);
+    Serial.println(data[0]);
+    Serial.println(data[1]);
+    Serial.println(data[2]);
 }
 
 void loop() {
