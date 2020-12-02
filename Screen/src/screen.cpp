@@ -1,7 +1,7 @@
 #include "screen.h"
 
 void Draw_Menu() {
-    uint32_t x, len;
+    uint32_t x, y, len;
 
     lcd.Fill_Screen(17, 17, 17);
     lcd.Set_Draw_color(235, 32, 250);
@@ -21,7 +21,8 @@ void Draw_Menu() {
     lcd.Set_Text_Mode(1);
     len = Pixel_srtlen("null", 2);
     x = String_x_pos(6, len);
-    lcd.Print_String("null", x, lcd.Get_Height() / 4 * 3 - 1 - Pixel_strhgt(2) / 2);
+    y = String_y_pos(4, 3, 2);
+    lcd.Print_String("null", x, y);
     lcd.Set_Text_Mode(0);
 
     lcd.Set_Draw_color(25, 25, 112);
@@ -30,7 +31,8 @@ void Draw_Menu() {
     lcd.Set_Text_Mode(1);
     len = Pixel_srtlen("null", 2);
     x = String_x_pos(2, len);
-    lcd.Print_String("null", x, lcd.Get_Height() / 4 * 3 - 1 - Pixel_strhgt(2) / 2);
+    y = String_y_pos(4, 3, 2);
+    lcd.Print_String("null", x, y);
     lcd.Set_Text_Mode(0);
 
     lcd.Set_Draw_color(199, 21, 133);
@@ -39,7 +41,8 @@ void Draw_Menu() {
     lcd.Set_Text_Mode(1);
     len = Pixel_srtlen("null", 2);
     x = String_x_pos(6, 5, len);
-    lcd.Print_String("null", x, lcd.Get_Height() / 4 * 3 - 1 - Pixel_strhgt(2) / 2);
+    y = String_y_pos(4, 3, 2);
+    lcd.Print_String("null", x, y);
     lcd.Set_Text_Mode(0);
 
     isMenuPrinted = true;
@@ -70,6 +73,20 @@ uint32_t String_x_pos(uint32_t screen_divisions, uint32_t string_len) {
     return (lcd.Get_Display_Width() / screen_divisions - string_len / 2);
 }
 
+//Return the text height multiplied by text_size
 uint32_t Pixel_strhgt(uint8_t text_size) {
-    return 5 * text_size;
+    return 8 * text_size;
+}
+
+/* 
+Calculate srings y position in the middle of that string
+screen_divisions is the number to how many groups of pixels the screen is divided
+division_index is the index of the group of pixels
+*/
+uint32_t String_y_pos(uint32_t screen_divisions, uint32_t division_index, uint8_t text_size) {
+    return (lcd.Get_Display_Height() / screen_divisions * division_index - Pixel_strhgt(2) / 2 + text_size / 2 - 1);
+}
+
+uint32_t String_y_pos(uint32_t screen_divisions, uint8_t text_size) {
+    return (lcd.Get_Display_Height() / screen_divisions - Pixel_strhgt(2) / 2 + text_size / 2 - 1);
 }
