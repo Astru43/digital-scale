@@ -17,4 +17,4 @@ uint32_t String_x_pos(uint32_t screen_divisions, uint32_t string_len);
 uint32_t Pixel_strhgt(uint8_t text_size);
 uint32_t String_y_pos(uint32_t screen_divisions, uint32_t division_index, uint8_t text_size);
 uint32_t String_y_pos(uint32_t screen_divisions, uint8_t text_size);
-#endif
+#endif //_SCREEN_H_
