@@ -1,6 +1,13 @@
 #include "screen.h"
 
-void Draw_Menu() {
+void tarrBtn() {
+    lcd.Fill_Rect(0,0, lcd.Get_Width(), lcd.Get_Height(), 0xffff);
+}
+
+void unitBtn() {
+}
+
+void Draw_Menu(Touch *touch) {
     uint32_t x, y, len;
 
     lcd.Fill_Screen(17, 17, 17);
@@ -44,6 +51,9 @@ void Draw_Menu() {
     y = String_y_pos(4, 3, 2);
     lcd.Print_String("null", x, y);
     lcd.Set_Text_Mode(0);
+
+    touch->registerHitbox(10, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 3 - 1 - 5, lcd.Get_Height() - 1 - 10, tarrBtn);
+    touch->registerHitbox(lcd.Get_Width() / 3 - 1 + 5, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 3 * 2 - 1 - 5, lcd.Get_Height() - 1 - 10, unitBtn);
 
     isMenuPrinted = true;
 }
