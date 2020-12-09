@@ -24,26 +24,42 @@ TSPoint Touch::readTouch(LCDWIKI_KBV &lcd) {
     return p;
 }
 
-void Touch::registerHitbox(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, void (*func)()) {
-    if (hitboxSize == 0)
+void Touch::registerHitbox(int16_t x1, int16_t y1, int16_t x2, int16_t y2, void (*func)()) {
+    if (hitboxSize == 0) {
         hitbox = new hitbox_t[++hitboxSize];
-    else {
+        Serial.println(hitboxSize);
+    } else {
         hitbox_t *tmp = new hitbox_t[++hitboxSize];
-        for (int i = 0; i < hitboxSize - 1; i++) {
+        for (uint32_t i = 0; i < hitboxSize - 1; i++) {
             tmp[i] = hitbox[i];
         }
         delete hitbox;
         hitbox = tmp;
+        Serial.println(hitboxSize);
     }
-    hitbox[hitboxSize - 1] = {x1, x2, y1, y2, func};
+
+    if (x1 < x2 && y1 < y2) {
+        hitbox[hitboxSize - 1] = {x1, x2, y1, y2, func};
+    } else if (x1 > x2 && y1 < y2) {
+        hitbox[hitboxSize - 1] = {x2, x1, y1, y2, func};
+    } else if (x1 < x2 && y1 > y2) {
+        hitbox[hitboxSize - 1] = {x1, x2, y2, y1, func};
+    } else {
+        hitbox[hitboxSize - 1] = {x2, x1, y2, y1, func};
+    }
 }
 
 void Touch::hitboxClicked(LCDWIKI_KBV &lcd) {
     TSPoint p = readTouch(lcd);
-    if (p.z > MINPRESSURE && p.z < MAXPRESSURE) return;
-    for (int i = 0; i < hitboxSize; i++) {
-        hitbox_t hit = hitbox[i];
-        if (hit.x1 > p.x && hit.x2 < p.x && hit.y1 > p.y && hit.y2 < p.y) hit.func();
-        break;
+
+    if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
+        for (uint32_t i = 0; i < hitboxSize; i++) {
+            hitbox_t hit = hitbox[i];
+
+            if (hit.x1 < p.x && hit.x2 > p.x && hit.y1 < p.y && hit.y2 > p.y) {
+                hit.func();
+                break;
+            }
+        }
     }
 }

@@ -5,9 +5,9 @@
 #include <TouchScreen.h>
 
 #define TS_LEFT 94
-#define TS_TOP 130
+#define TS_TOP 126
 #define TS_RIGHT 945
-#define TS_BOT 822
+#define TS_BOT 900
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
@@ -21,10 +21,10 @@
 //y = map(p.x, TS_TOP, TS_BOT, 0, lcd.get_height());
 
 typedef struct {
-    uint16_t x1;
-    uint16_t x2;
-    uint16_t y1;
-    uint16_t y2;
+    int16_t x1;
+    int16_t x2;
+    int16_t y1;
+    int16_t y2;
     void (*func)();
 } hitbox_t;
 
@@ -43,7 +43,7 @@ class Touch {
     Touch(uint8_t XM, uint8_t YM, uint8_t XP, uint8_t YP);
     ~Touch();
     TSPoint readTouch(LCDWIKI_KBV &lcd);
-    void registerHitbox(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, void (*func)());
+    void registerHitbox(int16_t x1, int16_t y1, int16_t x2, int16_t y2, void (*func)());
     void hitboxClicked(LCDWIKI_KBV &lcd);
 };
 

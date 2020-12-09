@@ -24,15 +24,17 @@ void loop() {
     if (!isMenuPrinted) {
         Draw_Menu(&touch);
     }
-    TSPoint p = touch.readTouch(lcd);
+    //TSPoint p = touch.readTouch(lcd);
     touch.hitboxClicked(lcd);
 
+    /*
     if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
         Serial.print("X = ");
         Serial.print(p.x);
         Serial.print("  |  Y = ");
         Serial.println(p.y);
     }
+    */
 
     delay(100);
 }

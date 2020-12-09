@@ -1,7 +1,7 @@
 #include "screen.h"
 
 void tarrBtn() {
-    lcd.Fill_Rect(0,0, lcd.Get_Width(), lcd.Get_Height(), 0xffff);
+    lcd.Fill_Screen(0xffff);
 }
 
 void unitBtn() {
