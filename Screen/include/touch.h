@@ -45,6 +45,7 @@ class Touch {
     TSPoint readTouch(LCDWIKI_KBV &lcd);
     void registerHitbox(int16_t x1, int16_t y1, int16_t x2, int16_t y2, void (*func)());
     void hitboxClicked(LCDWIKI_KBV &lcd);
+    void clearHitbox();
 };
 
 #endif  //_TOUCH_H_

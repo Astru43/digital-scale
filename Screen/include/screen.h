@@ -9,7 +9,9 @@
 extern LCDWIKI_KBV lcd;
 extern bool isMenuPrinted;
 
+void InitScreen();
 void Draw_Menu(Touch *touch);
+void playAnimations();
 
 uint32_t Pixel_srtlen(const char *str);
 uint32_t Pixel_srtlen(const char *str, uint8_t text_size);

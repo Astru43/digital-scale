@@ -1,5 +1,6 @@
 #include "touch.h"
 
+
 Touch::Touch(uint8_t XM, uint8_t YM, uint8_t XP, uint8_t YP) : sensor(XP, YP, XM, YM, 300) {
     _xm = XM;
     _ym = YM;
@@ -53,6 +54,9 @@ void Touch::hitboxClicked(LCDWIKI_KBV &lcd) {
     TSPoint p = readTouch(lcd);
 
     if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
+        Serial.print(p.x);
+        Serial.print(" | ");
+        Serial.println(p.y);
         for (uint32_t i = 0; i < hitboxSize; i++) {
             hitbox_t hit = hitbox[i];
 
@@ -61,5 +65,12 @@ void Touch::hitboxClicked(LCDWIKI_KBV &lcd) {
                 break;
             }
         }
+    }
+}
+
+void Touch::clearHitbox() {
+    if (hitboxSize != 0){
+        delete hitbox;
+        hitboxSize = 0;
     }
 }

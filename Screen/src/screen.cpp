@@ -1,13 +1,67 @@
 #include "screen.h"
 
+struct animation_t {
+    uint16_t x1;
+    uint16_t y1;
+    uint16_t x2;
+    uint16_t y2;
+
+    uint8_t state = 0;
+    bool playAnimation = false;
+
+    animation_t() {}
+    animation_t(uint16_t X1, uint16_t Y1, uint16_t X2, uint16_t Y2) {
+        x1 = X1;
+        x2 = X2;
+        y1 = Y1;
+        y2 = Y2;
+    }
+};
+
+animation_t animation1;
+animation_t animation2;
+
+
+void clickAnimation1() {
+    switch (animation1.state) {
+        case 0:
+            lcd.Set_Draw_color(40, 40, 40);
+            lcd.Fill_Round_Rectangle(animation1.x1, animation1.y1, animation1.x2, animation1.y2, 20);
+            animation1.state = 1;
+            break;
+        case 1:
+            lcd.Set_Draw_color(34, 139, 34);
+            lcd.Fill_Round_Rectangle(animation1.x1, animation1.y1, animation1.x2, animation1.y2, 20);
+            animation1.playAnimation = false;
+            animation1.state = 0;
+            break;
+    }
+
+    lcd.Set_Text_Size(2);
+    lcd.Set_Text_Mode(1);
+    uint32_t len = Pixel_srtlen("Tare", 2);
+    uint32_t x = String_x_pos(6, len);
+    uint32_t y = String_y_pos(4, 3, 2);
+    lcd.Print_String("Tare", x, y);
+    lcd.Set_Text_Mode(0);
+}
+
 void tarrBtn() {
-    lcd.Fill_Screen(0xffff);
+    Serial.println(0x40);
+    uint8_t cmd = 0x40;
+    Serial1.write(cmd);
+    animation1.playAnimation = true;
 }
 
 void unitBtn() {
 }
 
+void playAnimations() {
+    if (animation1.playAnimation) clickAnimation1();
+}
+
 void Draw_Menu(Touch *touch) {
+    touch->clearHitbox();
     uint32_t x, y, len;
 
     lcd.Fill_Screen(17, 17, 17);
@@ -16,7 +70,7 @@ void Draw_Menu(Touch *touch) {
 
     lcd.Set_Text_Size(2);
     lcd.Set_Text_Mode(1);
-    lcd.Print_String("Hello World", CENTER, lcd.Get_Height() / 4 - 1);
+    lcd.Print_String(" Digitaalinen vaaka projekti", CENTER, lcd.Get_Height() / 4 - 1);
     lcd.Set_Text_Mode(0);
 
     lcd.Set_Draw_color(35, 190, 235);
@@ -26,20 +80,20 @@ void Draw_Menu(Touch *touch) {
     lcd.Fill_Round_Rectangle(10, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 3 - 1 - 5, lcd.Get_Height() - 1 - 10, 20);
     lcd.Set_Text_Size(2);
     lcd.Set_Text_Mode(1);
-    len = Pixel_srtlen("null", 2);
+    len = Pixel_srtlen("Tare", 2);
     x = String_x_pos(6, len);
     y = String_y_pos(4, 3, 2);
-    lcd.Print_String("null", x, y);
+    lcd.Print_String("Tare", x, y);
     lcd.Set_Text_Mode(0);
 
     lcd.Set_Draw_color(25, 25, 112);
     lcd.Fill_Round_Rectangle(lcd.Get_Width() / 3 - 1 + 5, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 3 * 2 - 1 - 5, lcd.Get_Height() - 1 - 10, 20);
     lcd.Set_Text_Size(2);
     lcd.Set_Text_Mode(1);
-    len = Pixel_srtlen("null", 2);
+    len = Pixel_srtlen("Unit", 2);
     x = String_x_pos(2, len);
     y = String_y_pos(4, 3, 2);
-    lcd.Print_String("null", x, y);
+    lcd.Print_String("Unit", x, y);
     lcd.Set_Text_Mode(0);
 
     lcd.Set_Draw_color(199, 21, 133);
@@ -99,4 +153,9 @@ uint32_t String_y_pos(uint32_t screen_divisions, uint32_t division_index, uint8_
 
 uint32_t String_y_pos(uint32_t screen_divisions, uint8_t text_size) {
     return (lcd.Get_Display_Height() / screen_divisions - Pixel_strhgt(2) / 2 + text_size / 2 - 1);
+}
+
+void InitScreen() {
+    animation1 = {10, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 3 - 1 - 5, lcd.Get_Height() - 1 - 10};
+    animation2 = {lcd.Get_Width() / 3 - 1 + 5, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 3 * 2 - 1 - 5, lcd.Get_Height() - 1 - 10};
 }

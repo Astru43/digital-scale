@@ -18,23 +18,15 @@ void setup() {
     lcd.Init_LCD();
     lcd.Set_Rotation(3);
     Serial.begin(9600);
+    Serial1.begin(2000000);
+    InitScreen();
 }
 
 void loop() {
     if (!isMenuPrinted) {
         Draw_Menu(&touch);
     }
-    //TSPoint p = touch.readTouch(lcd);
     touch.hitboxClicked(lcd);
-
-    /*
-    if (p.z > MINPRESSURE && p.z < MAXPRESSURE) {
-        Serial.print("X = ");
-        Serial.print(p.x);
-        Serial.print("  |  Y = ");
-        Serial.println(p.y);
-    }
-    */
-
+    playAnimations();
     delay(100);
 }
