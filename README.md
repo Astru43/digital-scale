@@ -1,1 +1,1 @@
-# digital-scale
+# Digital scale
