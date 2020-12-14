@@ -2,6 +2,8 @@
 #define _TOUCH_H_
 #include <Arduino.h>
 #include <LCDWIKI_KBV.h>
+
+//Library for the touch
 #include <TouchScreen.h>
 
 #define TS_LEFT 94
@@ -11,15 +13,11 @@
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
-/*
-#define TS_LEFT 956
-#define TS_TOP 804
-#define TS_RIGHT 119
-#define TS_BOT 237
-*/
+
 //x = map(p.y, TS_LEFT, TS_RIGHT, 0, lcd.get_width());
 //y = map(p.x, TS_TOP, TS_BOT, 0, lcd.get_height());
 
+//Struct for hitbox handler and cordinates
 typedef struct {
     int16_t x1;
     int16_t x2;
@@ -28,6 +26,7 @@ typedef struct {
     void (*func)();
 } hitbox_t;
 
+//Touch class
 class Touch {
   private:
     TouchScreen sensor;
