@@ -55,8 +55,8 @@ void clickAnimation2() {
     lcd.Set_Text_Mode(0);
 }
 
-//Unit buttons click handler
-void tarrBtn() {
+//Tare buttons click handler
+void tareBtn() {
     Serial.println(0x40);
     uint8_t cmd = 0x40;
     Serial1.write(cmd);
@@ -118,7 +118,7 @@ void Draw_Menu(Touch *touch) {
     lcd.Set_Text_Mode(0);
 
     //Registe hitboxsies for the buttons
-    touch->registerHitbox(10, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 2 - 1 - 5, lcd.Get_Height() - 1 - 10, tarrBtn);
+    touch->registerHitbox(10, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() / 2 - 1 - 5, lcd.Get_Height() - 1 - 10, tareBtn);
     touch->registerHitbox(lcd.Get_Width() / 2 - 1 + 5, lcd.Get_Height() / 2 + 1 + 10, lcd.Get_Width() - 1 - 10, lcd.Get_Height() - 1 - 10, unitBtn);
 
     isMenuPrinted = true;
